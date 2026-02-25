@@ -13,3 +13,5 @@ class Document(db.Model):
 
     status = db.Column(db.String(50), default = 'PENDING')
 
+    content = db.Column(db.text, nullable=True)
+
