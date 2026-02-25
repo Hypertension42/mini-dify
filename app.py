@@ -64,5 +64,31 @@ def list_documents():
 
     return jsonify(output)
 
+@app.route('/search', methods=['GET'])
+def search_documents():
+    
+    query = request.args.get('q', '')
+
+    if not query:
+        return jsonify({"error": "Missing search query"}), 400
+    
+    results = Document.query.filter(
+        Document.filename.contains(query),
+        Document.status == 'COMPLETED'
+    ).all()
+
+    data = []
+    for doc in results:
+        data.append({
+            "id": doc.id,
+            "filename": doc.storage_path
+            "path": doc.storage_path
+        })
+
+    return jsonify(data), 200
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
