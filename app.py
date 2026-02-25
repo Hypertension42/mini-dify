@@ -72,6 +72,7 @@ def search_documents():
     if not query:
         return jsonify({"error": "Missing search query"}), 400
     
+    
     results = Document.query.filter(
         Document.filename.contains(query),
         Document.status == 'COMPLETED'
@@ -81,7 +82,7 @@ def search_documents():
     for doc in results:
         data.append({
             "id": doc.id,
-            "filename": doc.storage_path
+            "filename": doc.storage_path,
             "path": doc.storage_path
         })
 

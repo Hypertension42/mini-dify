@@ -19,6 +19,21 @@ def process_document_task(doc_id):
         doc.status = 'PROCESSING'
         db.session.commit()
 
+        try:
+            with open(doc.storage_path, 'r') as f:
+                extracted_text = f.read()
+
+            doc.content = extracted_text
+            doc.status = 'COMPLETED'
+
+        except Exception as e:
+            print(f"Failed to read file: {e}")
+            doc.status = 'FAILED'
+
+        db.session.commit()
+
+                
+
         print(f"---Starting work on: {doc.filename}---")
         time.sleep(10)
 
